@@ -1,5 +1,2 @@
 # foosball
-foosball bot
-hello world
-this is a branch
-thanks
+foosball bot with vimba camera
