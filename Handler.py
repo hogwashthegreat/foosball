@@ -1,7 +1,7 @@
 from vmbpy import *
 import threading
 import cv2
-
+import opencvstuff
 
 class Handler:
     def __init__(self):
@@ -17,9 +17,9 @@ class Handler:
 
         elif frame.get_status() == FrameStatus.Complete:
             print('{} acquired {}'.format(cam, frame), flush=True)
-            display = frame
-
+            display = frame.as_opencv_image()
+            center = opencvstuff.getBallCenter(display)
             msg = 'Stream from \'{}\'. Press <Enter> to stop stream.'
-            cv2.imshow(msg.format(cam.get_name()), display.as_opencv_image())
+            cv2.imshow(msg.format(cam.get_name()), display)
 
         cam.queue_frame(frame)
