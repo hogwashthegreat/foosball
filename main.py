@@ -112,6 +112,7 @@ def main():
 
             finally:
                 print(f"time: {time.time()-time_}")
+                print(f"frames processed: {handler.getFrames()}")
                 cam.stop_streaming()
 
 

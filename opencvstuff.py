@@ -19,7 +19,7 @@ def getBallCenter(frame):
     kernel = np.ones((4,4),np.uint8)
     mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
     mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
-    cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
+    cnts = cv2.findContours(mask, cv2.RETR_EXTERNAL,
 		cv2.CHAIN_APPROX_SIMPLE)
     cnts = imutils.grab_contours(cnts)
     center = None
@@ -36,12 +36,12 @@ def getBallCenter(frame):
             center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
 
 		# only proceed if the radius meets a minimum size
-        #if radius > 1:
+        if radius > 1:
 			# draw the circle and centroid on the frame,
 			# then update the list of tracked points
-            #cv2.circle(frame, (int(x), int(y)), int(radius),
-			#	(0, 255, 255), 2)
-            #cv2.circle(frame, center, 5, (0, 0, 255), -1)
+            cv2.circle(frame, (int(x), int(y)), int(radius),
+				(0, 255, 255), 2)
+            cv2.circle(frame, center, 5, (0, 0, 255), -1)
 
     
     #cv2.imshow("vimba",frame)
