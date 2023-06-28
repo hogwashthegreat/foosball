@@ -64,7 +64,7 @@ def setup_camera(cam: Camera):
     with cam:
         # Enable auto exposure time setting if camera supports it
         try:
-            cam.load_settings("testcamerasettings.xml", PersistType.All)
+            cam.load_settings("mayberealcamerasettings.xml", PersistType.All)
             cam.set_pixel_format(PixelFormat.Bgr8)
         except (AttributeError, VmbFeatureError):
             pass

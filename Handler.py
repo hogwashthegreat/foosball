@@ -27,7 +27,7 @@ class Handler:
             self.centers[2] = self.centers[1]
             self.centers[1] = self.centers[0]
             self.centers[0] = center
-            print(self.centers)
+            #print(self.centers)
             
             
             #Only gets and displays first 1000 frames
