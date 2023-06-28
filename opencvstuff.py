@@ -10,8 +10,8 @@ import imutils
 def getBallCenter(frame):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-    lower_red = np.array([0, 40, 227])
-    upper_red = np.array([10, 109, 255])
+    lower_red = np.array([161, 86, 172])
+    upper_red = np.array([177, 118, 255])
     
     mask = cv2.inRange(hsv, lower_red, upper_red)
 
