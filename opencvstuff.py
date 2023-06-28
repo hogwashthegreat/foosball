@@ -46,3 +46,7 @@ def getBallCenter(frame):
     
     #cv2.imshow("vimba",frame)
     return center
+
+
+#def getVelo(centers):
+    

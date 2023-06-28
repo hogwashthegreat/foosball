@@ -6,7 +6,7 @@ def nothing(x):
     pass
 
 # Load in image
-image = cv2.imread('masktests/colormatch3.jpg')
+image = cv2.imread('masktests/colormatch6.jpg')
 
 # Create a window
 cv2.namedWindow('image')
@@ -61,7 +61,7 @@ while(1):
         pvMax = vMax
 
     # Display output image
-    scale_percent = 50 # percent of original size
+    scale_percent = 25 # percent of original size
     width = int(output.shape[1] * scale_percent / 100)
     height = int(output.shape[0] * scale_percent / 100)
     dim = (width, height)
