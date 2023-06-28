@@ -47,6 +47,14 @@ def getBallCenter(frame):
     #cv2.imshow("vimba",frame)
     return center
 
+#get x,y velocity of ball based on average of the 2 steps
+def getVelo(centers):
+    x = centers[2][0]-centers[0][0]//2
+    y = centers[2][1]-centers[0][1]//2
+    return (x,y)
 
-#def getVelo(centers):
-    
+def getNextPos(centers):
+    velo = getVelo(centers)
+    x = centers[0][0] + velo[0]
+    y = centers[0][1] + velo[1]
+    return (x,y)
