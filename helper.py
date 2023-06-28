@@ -49,8 +49,8 @@ def getBallCenter(frame):
 
 #get x,y velocity of ball based on average of the 2 steps
 def getVelo(centers):
-    x = (centers[2][0]-centers[0][0])//2
-    y = (centers[2][1]-centers[0][1])//2
+    x = (centers[0][0]-centers[2][0])//2
+    y = (centers[0][1]-centers[2][1])//2
     return (x,y)
 
 def getNextPos(centers):

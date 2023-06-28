@@ -12,7 +12,7 @@ class Handler:
     def __call__(self, cam: Camera, stream: Stream, frame: Frame):
         ENTER_KEY_CODE = 13
 
-        key = cv2.waitKey(1)
+        key = cv2.waitKey(0)
         if key == ENTER_KEY_CODE: #
            self.shutdown_event.set()
            return
@@ -32,7 +32,7 @@ class Handler:
             #get predicted next position and draw it (if centers found)
             try:
                 nextPos = helper.getNextPos(self.centers)
-                cv2.circle(display, nextPos, 10 ,(0,255,0), -1)
+                cv2.circle(display, nextPos, 4 ,(0,255,0), -1)
                 print(self.centers,nextPos)
                 #print(nextPos)
             except:
