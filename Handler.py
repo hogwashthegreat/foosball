@@ -1,7 +1,7 @@
 from vmbpy import *
 import threading
 import cv2
-import opencvstuff
+import helper
 import numpy as np
 
 class Handler:
@@ -23,7 +23,7 @@ class Handler:
             #display = display[:500, :500]
             
             #Get new ball center and update array
-            center = opencvstuff.getBallCenter(display)
+            center = helper.getBallCenter(display)
             self.centers[2] = self.centers[1]
             self.centers[1] = self.centers[0]
             self.centers[0] = center
