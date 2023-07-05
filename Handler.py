@@ -12,7 +12,7 @@ class Handler:
     def __call__(self, cam: Camera, stream: Stream, frame: Frame):
         ENTER_KEY_CODE = 13
 
-        key = cv2.waitKey(0)
+        key = cv2.waitKey(1)
         if key == ENTER_KEY_CODE: #
            self.shutdown_event.set()
            return

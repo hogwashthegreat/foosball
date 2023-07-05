@@ -64,7 +64,7 @@ def setup_camera(cam: Camera):
     with cam:
         # Enable auto exposure time setting if camera supports it
         try:
-            cam.load_settings("mayberealcamerasettings.xml", PersistType.All)
+            cam.load_settings("mountedcamerasettings.xml", PersistType.All)
             cam.set_pixel_format(PixelFormat.Bgr8)
         except (AttributeError, VmbFeatureError):
             pass
@@ -106,7 +106,7 @@ def main():
             try:
                 # Start Streaming with a custom a buffer of 3 Frames (defaults to 5)
                 time_ = time.time()
-                cam.start_streaming(handler=handler, buffer_count=1000
+                cam.start_streaming(handler=handler, buffer_count=5
                                     )
                 handler.shutdown_event.wait()
 
