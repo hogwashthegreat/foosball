@@ -10,8 +10,11 @@ import imutils
 def getBallCenter(frame):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-    lower_red = np.array([0, 96, 172])
-    upper_red = np.array([4, 124, 255])
+    #lower_red = np.array([0, 96, 172])
+    #upper_red = np.array([4, 124, 255])
+
+    lower_red = np.array([0, 183, 26])
+    upper_red = np.array([20, 255, 134])
     
     mask = cv2.inRange(hsv, lower_red, upper_red)
 
@@ -39,9 +42,9 @@ def getBallCenter(frame):
         if radius > 1:
 			# draw the circle and centroid on the frame,
 			# then update the list of tracked points
-            #cv2.circle(frame, (int(x), int(y)), int(radius),
-			#	(0, 255, 255), 2)
-            #cv2.circle(frame, center, 5, (0, 0, 255), -1)
+            cv2.circle(frame, (int(x), int(y)), int(radius),
+				(0, 255, 255), 2)
+            cv2.circle(frame, center, 5, (0, 0, 255), -1)
             pass
 
     
