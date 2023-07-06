@@ -6,8 +6,10 @@ def nothing(x):
     pass
 
 # Load in image
-image = cv2.imread('masktests/video.mp4')
-
+imagenames = ['masktests/colormatch1.jpg', 'masktests/colormatch2.jpg', 'masktests/colormatch3.jpg', 'masktests/colormatch4.jpg', 'masktests/colormatch5.jpg', 'masktests/colormatch6.jpg']
+images = []
+for x in range(len(imagenames)):
+    images.append(cv2.imread(imagenames[x]))
 # Create a window
 cv2.namedWindow('image')
 
@@ -28,7 +30,7 @@ cv2.setTrackbarPos('VMax', 'image', 255)
 hMin = sMin = vMin = hMax = sMax = vMax = 0
 phMin = psMin = pvMin = phMax = psMax = pvMax = 0
 
-output = image
+
 wait_time = 33
 
 while(1):
@@ -46,8 +48,11 @@ while(1):
     upper = np.array([hMax, sMax, vMax])
 
     # Create HSV Image and threshold into a range.
-    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    output = cv2.inRange(hsv, lower, upper)
+    outputs = []
+    for i in images:
+        hsv = cv2.cvtColor(i, cv2.COLOR_BGR2HSV)
+        outputs.append(cv2.inRange(hsv, lower, upper))
+
     #output = cv2.bitwise_and(image,image, mask= mask)
 
     # Print if there is a change in HSV value
@@ -62,14 +67,16 @@ while(1):
 
     # Display output image
     scale_percent = 25 # percent of original size
-    width = int(output.shape[1] * scale_percent / 100)
-    height = int(output.shape[0] * scale_percent / 100)
+    width = int(outputs[0].shape[1] * scale_percent / 100)
+    height = int(outputs[0].shape[0] * scale_percent / 100)
     dim = (width, height)
   
     # resize image
-    resized = cv2.resize(output, dim, interpolation = cv2.INTER_AREA)
-
-    cv2.imshow('image',resized)
+    resized = []
+    for o in outputs:
+        resized.append(cv2.resize(o, dim, interpolation = cv2.INTER_AREA))
+    for x in range(len(resized)):
+        cv2.imshow(imagenames[x],resized[x])
 
     # Wait longer to prevent freeze for videos.
     if cv2.waitKey(wait_time) & 0xFF == ord('q'):
