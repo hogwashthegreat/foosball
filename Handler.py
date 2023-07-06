@@ -32,8 +32,8 @@ class Handler:
             #get predicted next position and draw it (if centers found)
             try:
                 nextPos = helper.getNextPos(self.centers)
-                cv2.circle(display, nextPos, 4 ,(0,255,0), -1)
-                print(self.centers,nextPos)
+                #cv2.circle(display, nextPos, 4 ,(0,255,0), -1)
+                #print(self.centers,nextPos)
                 #print(nextPos)
             except:
                 pass

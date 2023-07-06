@@ -6,7 +6,7 @@ def nothing(x):
     pass
 
 # Load in image
-image = cv2.imread('masktests/colormatch8.jpg')
+image = cv2.imread('masktests/video.mp4')
 
 # Create a window
 cv2.namedWindow('image')
