@@ -106,8 +106,7 @@ def main():
             try:
                 # Start Streaming with a custom a buffer of 3 Frames (defaults to 5)
                 time_ = time.time()
-                cam.start_streaming(handler=handler, buffer_count=5
-                                    )
+                cam.start_streaming(handler=handler, buffer_count=5)
                 handler.shutdown_event.wait()
 
             finally:
