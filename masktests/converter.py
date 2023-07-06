@@ -12,7 +12,7 @@ for x in range(len(imagenames)):
     images.append(cv2.imread(imagenames[x]))
 # Create a window
 cv2.namedWindow('image')
-
+cv2.resizeWindow('image', 500, 250)
 # create trackbars for color change
 cv2.createTrackbar('HMin','image',0,179,nothing) # Hue is from 0-179 for Opencv
 cv2.createTrackbar('SMin','image',0,255,nothing)
@@ -70,7 +70,7 @@ while(1):
     width = int(outputs[0].shape[1] * scale_percent / 100)
     height = int(outputs[0].shape[0] * scale_percent / 100)
     dim = (width, height)
-  
+    
     # resize image
     resized = []
     for o in outputs:
