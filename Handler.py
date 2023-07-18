@@ -29,15 +29,16 @@ class Handler:
             self.centers[0] = center
             #print(self.centers)
             
+            '''
             #get predicted next position and draw it (if centers found)
             try:
-                nextPos = helper.getNextPos(self.centers)
+                nextPos, velo = helper.getNextPos(self.centers)
                 cv2.circle(display, nextPos, 4 ,(0,255,0), -1)
                 print(self.centers,nextPos)
                 #print(nextPos)
             except:
                 pass
-
+            '''
             #Only gets and displays first 1000 frames
             msg = 'Stream from \'{}\'. Press <Enter> to stop stream.'            
             cv2.imshow(msg.format(cam.get_name()), display)

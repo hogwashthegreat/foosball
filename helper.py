@@ -6,6 +6,8 @@ from imutils.video import VideoStream
 import argparse
 import imutils
 
+stickX = {0:410, 1:740, 2:1070, 3:1230, 4:-1}
+
 
 def getBallCenter(frame):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -53,12 +55,107 @@ def getBallCenter(frame):
 
 #get x,y velocity of ball based on average of the 2 steps
 def getVelo(centers):
-    x = (centers[0][0]-centers[2][0])//2
-    y = (centers[0][1]-centers[2][1])//2
+    x = (centers[0][0]-centers[2][0])/2
+    y = (centers[0][1]-centers[2][1])/2
     return (x,y)
-
+'''
 def getNextPos(centers):
     velo = getVelo(centers)
     x = centers[0][0] + velo[0]
     y = centers[0][1] + velo[1]
-    return (int(x),int(y))
+    return (int(x),int(y)), velo
+'''
+
+#goalie: 1230, 2-man: 1070, 5-man: 740, 3-man: 410
+def whichStick(centers):
+    velo = getVelo(centers)
+    nextX = centers[0][0]
+    if velo[0] > 0:
+        if nextX < 410:
+            return 0, velo
+        elif nextX < 740:
+            return 1, velo
+        elif nextX < 1070:
+            return 2, velo
+        elif nextX < 1230:
+            return 3, velo
+        else: #When ball is past goalie
+            return 4, velo
+        
+#goalie: 240-530
+def yHit(centers):
+    stick, velo = whichStick(centers)
+    x = stickX[stick]
+    frames = (x-centers[0][0])/velo[0]
+    yPos = frames*velo[1]+centers[0][1]
+    numTables = yPos//760
+    remainder = yPos % 760
+    if numTables % 2:
+        yPos = 760-remainder
+    else:
+        yPos = remainder
+    return int(yPos), stick
+
+def whichPlayer(centers):
+    yPos, stick = yHit(centers)
+    
+    if stick == 0: #3-man
+        if yPos < 260:
+            #player 1
+            pass
+        elif yPos < 309:
+            pass
+        elif yPos < 472:
+            #player 2
+            pass
+        elif yPos < 521:
+            pass
+        else:
+            #player 3
+            pass
+        
+        
+    elif stick == 1: #5-man
+        if yPos < 180:
+            #player 1
+            pass
+        elif yPos < 319:
+            #player 2
+            pass
+        elif yPos < 458:
+            #player 3
+            pass
+        elif yPos < 598:
+            #player 4
+            pass
+        else:
+            #player 5
+            pass
+        
+        
+        
+    elif stick == 2: #2-man
+        if yPos < 330:
+            #player 1
+            pass
+        elif yPos < 445:
+            pass
+        else:
+            #player 2
+            pass
+        
+        
+    elif stick == 3: #goalie
+        if yPos > 240 and yPos < 530:
+            #in-range
+            pass
+        else:
+            #out of range
+            pass
+        
+        
+    elif stick == 4: #shit stick
+        pass
+    
+centers = [(500,5), (1,0), (495, 0)]
+print(yHit(centers))
