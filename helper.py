@@ -165,5 +165,3 @@ def whichPlayer(centers):
     elif stick == 4: #shit stick
         pass
     
-centers = [(500,5), (1,0), (495, 0)]
-print(yHit(centers))
