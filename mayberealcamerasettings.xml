@@ -21,22 +21,22 @@
             <Feature Name="StreamSelector" Value="0" Type="Int" />
         </LocalDevice>
         <RemoteDevice>
-            <Feature Name="AcquisitionFrameRate" Value="66.15241" Type="Float" />
+            <Feature Name="AcquisitionFrameRate" Value="63.65741" Type="Float" />
             <Feature Name="AcquisitionFrameRateEnable" Value="0" Type="Bool" />
             <Feature Name="AcquisitionFrameRateMode" Value="Basic" Type="Enum" />
             <Feature Name="AcquisitionMode" Value="Continuous" Type="Enum" />
             <SelectorGroup Name="AcquisitionStatusSelector" Type="Enum" Value="AcquisitionActive">
-                <Feature Name="AcquisitionStatus" Value="1" Type="Bool" />
+                <Feature Name="AcquisitionStatus" Value="0" Type="Bool" />
             </SelectorGroup>
             <SelectorGroup Name="AcquisitionStatusSelector" Type="Enum" Value="AcquisitionTransfer">
-                <Feature Name="AcquisitionStatus" Value="1" Type="Bool" />
+                <Feature Name="AcquisitionStatus" Value="0" Type="Bool" />
             </SelectorGroup>
             <Feature Name="AcquisitionStatusSelector" Value="AcquisitionActive" Type="Enum" />
             <SelectorGroup Name="AutoModeRegionSelector" Type="Enum" Value="AutoModeRegion1">
-                <Feature Name="AutoModeRegionWidth" Value="992" Type="Int" />
-                <Feature Name="AutoModeRegionHeight" Value="536" Type="Int" />
-                <Feature Name="AutoModeRegionOffsetX" Value="88" Type="Int" />
-                <Feature Name="AutoModeRegionOffsetY" Value="184" Type="Int" />
+                <Feature Name="AutoModeRegionWidth" Value="974" Type="Int" />
+                <Feature Name="AutoModeRegionHeight" Value="470" Type="Int" />
+                <Feature Name="AutoModeRegionOffsetX" Value="106" Type="Int" />
+                <Feature Name="AutoModeRegionOffsetY" Value="250" Type="Int" />
             </SelectorGroup>
             <Feature Name="AutoModeRegionSelector" Value="AutoModeRegion1" Type="Enum" />
             <SelectorGroup Name="BalanceRatioSelector" Type="Enum" Value="Red">
@@ -146,17 +146,17 @@
             <Feature Name="DeviceTLVersionMajor" Value="1" Type="Int" />
             <Feature Name="DeviceTLVersionMinor" Value="1" Type="Int" />
             <SelectorGroup Name="DeviceTemperatureSelector" Type="Enum" Value="Mainboard">
-                <Feature Name="DeviceTemperature" Value="60" Type="Float" />
+                <Feature Name="DeviceTemperature" Value="65.5" Type="Float" />
             </SelectorGroup>
             <Feature Name="DeviceTemperatureSelector" Value="Mainboard" Type="Enum" />
             <Feature Name="DeviceUserID" Value="" Type="String" />
             <Feature Name="DeviceVendorName" Value="Allied Vision" Type="String" />
             <Feature Name="DeviceVersion" Value="14189" Type="String" />
             <Feature Name="ExposureAuto" Value="Off" Type="Enum" />
-            <Feature Name="ExposureAutoMax" Value="8999994" Type="Float" />
+            <Feature Name="ExposureAutoMax" Value="9000006" Type="Float" />
             <Feature Name="ExposureAutoMin" Value="175.879" Type="Float" />
             <Feature Name="ExposureMode" Value="Timed" Type="Enum" />
-            <Feature Name="ExposureTime" Value="6610.949" Type="Float" />
+            <Feature Name="ExposureTime" Value="6608.202" Type="Float" />
             <Feature Name="FileProcessStatus" Value="None" Type="Enum" />
             <SelectorGroup Name="FileSelector" Type="Enum" Value="Firmware">
                 <SelectorGroup Name="FileOperationSelector" Type="Enum" Value="Open">
@@ -305,7 +305,7 @@
             </SelectorGroup>
             <Feature Name="GainSelector" Value="All" Type="Enum" />
             <Feature Name="Gamma" Value="1" Type="Float" />
-            <Feature Name="Height" Value="720" Type="Int" />
+            <Feature Name="Height" Value="740" Type="Int" />
             <Feature Name="HeightMax" Value="1088" Type="Int" />
             <Feature Name="Hue" Value="-1" Type="Float" />
             <Feature Name="IntensityAutoPrecedence" Value="Minimizenoise" Type="Enum" />
@@ -351,9 +351,9 @@
                 <Feature Name="LineStatusAll" Value="15" Type="Int" />
             </SelectorGroup>
             <Feature Name="LineSelector" Value="Line0" Type="Enum" />
-            <Feature Name="OffsetX" Value="88" Type="Int" />
-            <Feature Name="OffsetY" Value="184" Type="Int" />
-            <Feature Name="PayloadSize" Value="2764800" Type="Int" />
+            <Feature Name="OffsetX" Value="106" Type="Int" />
+            <Feature Name="OffsetY" Value="230" Type="Int" />
+            <Feature Name="PayloadSize" Value="2859360" Type="Int" />
             <Feature Name="PixelFormat" Value="BGR8" Type="Enum" />
             <Feature Name="PixelSize" Value="Bpp24" Type="Enum" />
             <Feature Name="ReverseX" Value="0" Type="Bool" />
@@ -405,7 +405,7 @@
             <Feature Name="TriggerSelector" Value="FrameStart" Type="Enum" />
             <Feature Name="UserSetDefault" Value="Default" Type="Enum" />
             <Feature Name="UserSetSelector" Value="Default" Type="Enum" />
-            <Feature Name="Width" Value="1280" Type="Int" />
+            <Feature Name="Width" Value="1288" Type="Int" />
             <Feature Name="WidthMax" Value="1456" Type="Int" />
             <IgnoredFeature Name="AcquisitionStart" Type="Command" />
             <IgnoredFeature Name="AcquisitionStop" Type="Command" />
@@ -425,10 +425,10 @@
         <Feature Name="MaxDriverBuffersCount" Value="64" Type="Int" />
         <Feature Name="StreamAcquisitionModeSelector" Value="Default" Type="Enum" />
         <Feature Name="StreamAnnounceBufferMinimum" Value="0" Type="Int" />
-        <Feature Name="StreamAnnouncedBufferCount" Value="7" Type="Int" />
+        <Feature Name="StreamAnnouncedBufferCount" Value="0" Type="Int" />
         <Feature Name="StreamBufferHandlingMode" Value="Default" Type="Enum" />
         <Feature Name="StreamID" Value="DEV_1AB22C012AC1_DS_0x0" Type="String" />
-        <Feature Name="StreamIsGrabbing" Value="1" Type="Bool" />
+        <Feature Name="StreamIsGrabbing" Value="0" Type="Bool" />
         <Feature Name="StreamPayloadSizeAlignment" Value="1024" Type="Int" />
         <Feature Name="StreamPayloadSizeMode" Value="Auto" Type="Enum" />
         <Feature Name="StreamStopTimeout" Value="200" Type="Int" />

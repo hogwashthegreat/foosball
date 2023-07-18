@@ -6,7 +6,7 @@ def nothing(x):
     pass
 
 # Load in image
-imagenames = ['masktests/colormatch.jpg','masktests/darkcolor.jpg']
+imagenames = ['masktests/colormatch10.jpg']
 images = []
 for x in range(len(imagenames)):
     images.append(cv2.imread(imagenames[x]))
@@ -66,7 +66,7 @@ while(1):
         pvMax = vMax
 
     # Display output image
-    scale_percent = 25 # percent of original size
+    scale_percent = 50 # percent of original size
     width = int(outputs[0].shape[1] * scale_percent / 100)
     height = int(outputs[0].shape[0] * scale_percent / 100)
     dim = (width, height)

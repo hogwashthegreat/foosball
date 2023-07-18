@@ -15,10 +15,18 @@ def getBallCenter(frame):
     #lower_red = np.array([0, 96, 172])
     #upper_red = np.array([4, 124, 255])
 
-    lower_red = np.array([0, 183, 26])
-    upper_red = np.array([20, 255, 134])
+    lower_red = np.array([0, 54, 246])
+    upper_red = np.array([7, 105, 255])
+    
+    lower_red2 = np.array([172, 78, 0])
+    upper_red2 = np.array([179, 255, 255])
+    
+
     
     mask = cv2.inRange(hsv, lower_red, upper_red)
+    mask2 = cv2.inRange(hsv, lower_red2, upper_red2)
+    
+    mask = cv2.bitwise_or(mask, mask2)
 
 
     kernel = np.ones((4,4),np.uint8)
@@ -51,7 +59,7 @@ def getBallCenter(frame):
 
     
     #cv2.imshow("vimba",frame)
-    return center
+    return center, mask
 
 #get x,y velocity of ball based on average of the 2 steps
 def getVelo(centers):
