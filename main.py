@@ -8,32 +8,19 @@ from Handler import Handler
 # All frames will either be recorded in this format, or transformed to it before being displayed
 opencv_display_format = PixelFormat.Bgr8
 
-def print_usage():
-    print('Usage:')
-    print('    python asynchronous_grab_opencv.py [camera_id]')
-    print('    python asynchronous_grab_opencv.py [/h] [-h]')
-    print()
-    print('Parameters:')
-    print('    camera_id   ID of the camera to use (using first camera if not specified)')
-    print()
 
-
+#abort and exit if error
 def abort(reason: str, return_code: int = 1, usage: bool = False):
     print(reason + '\n')
-
-    if usage:
-        print_usage()
-
     sys.exit(return_code)
 
-
+#parse arguments
 def parse_args() -> Optional[str]:
     args = sys.argv[1:]
     argc = len(args)
 
     for arg in args:
         if arg in ('/h', '-h'):
-            print_usage()
             sys.exit(0)
 
     if argc > 1:
@@ -41,7 +28,7 @@ def parse_args() -> Optional[str]:
 
     return None if argc == 0 else args[0]
 
-
+#find camera on startup
 def get_camera(camera_id: Optional[str]) -> Camera:
     with VmbSystem.get_instance() as vmb:
         if camera_id:
@@ -59,39 +46,15 @@ def get_camera(camera_id: Optional[str]) -> Camera:
             return cams[0]
 
 
-#setup camera with settings from mayberealcamerasettings.xml and set pixel format to Bgr8
+#setup camera with settings from camerasettings.xml and set pixel format to Bgr8
 def setup_camera(cam: Camera):
     with cam:
-        # Enable auto exposure time setting if camera supports it
         try:
-            cam.load_settings("mayberealcamerasettings.xml", PersistType.All)
+            cam.load_settings("camerasettings.xml", PersistType.All)
             cam.set_pixel_format(PixelFormat.Bgr8)
         except (AttributeError, VmbFeatureError):
             pass
 
-
-"""
-class Handler:
-    def __init__(self):
-        self.shutdown_event = threading.Event()
-
-    def __call__(self, cam: Camera, stream: Stream, frame: Frame):
-        ENTER_KEY_CODE = 13
-
-        key = cv2.waitKey(1)
-        if key == ENTER_KEY_CODE:
-            self.shutdown_event.set()
-            return
-
-        elif frame.get_status() == FrameStatus.Complete:
-            print('{} acquired {}'.format(cam, frame), flush=True)
-            display = frame
-
-            msg = 'Stream from \'{}\'. Press <Enter> to stop stream.'
-            cv2.imshow(msg.format(cam.get_name()), display.as_opencv_image())
-
-        cam.queue_frame(frame)
-"""
 
 
 def main():
@@ -101,15 +64,16 @@ def main():
         with get_camera(cam_id) as cam:
             # setup general camera settings and the pixel format in which frames are recorded
             setup_camera(cam)
+            #get handler class to start streaming
             handler = Handler()
 
             try:
-                # Start Streaming with a custom a buffer of 3 Frames (defaults to 5)
+                # Start Streaming with a buffer of 5 frames (5 is default)
                 time_ = time.time()
-                cam.start_streaming(handler=handler, buffer_count=1000)
+                cam.start_streaming(handler=handler, buffer_count=5)
                 handler.shutdown_event.wait()
 
-            finally:
+            finally: #after program is ended, print total frames processed and time taken (for fps if needed)
                 print(f"time: {time.time()-time_}")
                 print(f"frames processed: {handler.getFrames()}")
                 cam.stop_streaming()
