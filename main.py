@@ -59,7 +59,7 @@ def get_camera(camera_id: Optional[str]) -> Camera:
             return cams[0]
 
 
-#setup camera with settings from camerasettings.xml and set pixel format to Bgr8
+#setup camera with settings from mayberealcamerasettings.xml and set pixel format to Bgr8
 def setup_camera(cam: Camera):
     with cam:
         # Enable auto exposure time setting if camera supports it

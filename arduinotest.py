@@ -13,6 +13,7 @@ while True:
     time.sleep(1)
 
 """
+#run StandardFirmata if broken to reset firmware
 import pyfirmata
 import time
 
