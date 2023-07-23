@@ -6,8 +6,9 @@ from imutils.video import VideoStream
 import argparse
 import imutils
 
+#stick x locations of camera pixels
 stickX = {0:410, 1:740, 2:1070, 3:1230, 4:-1}
-tableY = 760
+tableY = 760 #table height
 #magic squre for player max/min
 table = [[[45, 309], [260, 521], [472, 736]], 
          [[45, 177], [183, 315], [323, 453], [462, 592], [605, 735]], 
@@ -15,25 +16,23 @@ table = [[[45, 309], [260, 521], [472, 736]],
          [[240, 530]]]
 
 def getBallCenter(frame):
+    #convert color format to hsv for masking
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-    #lower_red = np.array([0, 96, 172])
-    #upper_red = np.array([4, 124, 255])
-
+    #lower range of red mask
     lower_red = np.array([0, 54, 246])
     upper_red = np.array([7, 105, 255])
-    
+    #upper range of red mask
     lower_red2 = np.array([172, 78, 0])
     upper_red2 = np.array([179, 255, 255])
     
 
-    
+    #get low and high mask then combine with bitwise OR
     mask = cv2.inRange(hsv, lower_red, upper_red)
     mask2 = cv2.inRange(hsv, lower_red2, upper_red2)
-    
     mask = cv2.bitwise_or(mask, mask2)
 
-
+    #find contours using color mask
     kernel = np.ones((4,4),np.uint8)
     mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
     mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
@@ -44,9 +43,7 @@ def getBallCenter(frame):
 
 	# only proceed if at least one contour was found
     if len(cnts) > 0:
-        # find the largest contour in the mask, then use
-        # it to compute the minimum enclosing circle and
-        # centroid
+        # find the largest contour in the mask, then use it to compute the minimum enclosing circle and centroid
         c = max(cnts, key=cv2.contourArea)
         ((x, y), radius) = cv2.minEnclosingCircle(c)
         M = cv2.moments(c)
@@ -62,24 +59,16 @@ def getBallCenter(frame):
             cv2.circle(frame, center, 5, (0, 0, 255), -1)
             pass
 
-    
-    #cv2.imshow("vimba",frame)
     return center, mask
 
-#get x,y velocity of ball based on average of the 2 steps
+#get x,y velocity of ball based on average of the first and 3rd positions
 def getVelo(centers):
     x = (centers[0][0]-centers[2][0])/2
     y = (centers[0][1]-centers[2][1])/2
     return (x,y)
-'''
-def getNextPos(centers):
-    velo = getVelo(centers)
-    x = centers[0][0] + velo[0]
-    y = centers[0][1] + velo[1]
-    return (int(x),int(y)), velo
-'''
 
-#goalie: 1230, 2-man: 1070, 5-man: 740, 3-man: 410
+
+#find which stick is going to be hit based on stickX
 def whichStick(centers):
     velo = getVelo(centers)
     nextX = centers[0][0]
@@ -97,17 +86,18 @@ def whichStick(centers):
         
 #find yPos of predicted contact with stick
 def yHit(centers):
-    stick, velo = whichStick(centers)
-    x = stickX[stick]
-    frames = (x-centers[0][0])/velo[0]
-    yPos = frames*velo[1]+centers[0][1]
+    stick, velo = whichStick(centers) #retrieve next stick to get hit and ball velocity
+    x = stickX[stick] #get the x location of the collision
+    frames = (x-centers[0][0])/velo[0] #how many frames until collision
+    yPos = frames*velo[1]+centers[0][1] #total y position
+    #bounce logic using flipped table
     numTables = yPos//tableY
     remainder = yPos % tableY
     if numTables % 2:
         yPos = tableY-remainder
     else:
         yPos = remainder
-    return int(yPos), stick
+    return int(yPos), stick #return predicted yposition of collision and stick collided with
 
 #find player to hit with based on predicted yPos
 def whichPlayer(centers):
@@ -183,6 +173,6 @@ def whichPlayer(centers):
             pass
         
         
-    elif stick == 4: #shit stick
+    elif stick == 4: #if past our goalie stick
         pass
     
