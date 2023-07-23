@@ -7,7 +7,12 @@ import argparse
 import imutils
 
 stickX = {0:410, 1:740, 2:1070, 3:1230, 4:-1}
-
+tableY = 760
+#magic squre for player max/min
+table = [[[45, 309], [260, 521], [472, 736]], 
+         [[45, 177], [183, 315], [323, 453], [462, 592], [605, 735]], 
+         [[50, 445], [330, 740]], 
+         [[240, 530]]]
 
 def getBallCenter(frame):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -79,47 +84,56 @@ def whichStick(centers):
     velo = getVelo(centers)
     nextX = centers[0][0]
     if velo[0] > 0:
-        if nextX < 410:
+        if nextX < stickX[0]:
             return 0, velo
-        elif nextX < 740:
+        elif nextX < stickX[1]:
             return 1, velo
-        elif nextX < 1070:
+        elif nextX < stickX[2]:
             return 2, velo
-        elif nextX < 1230:
+        elif nextX < stickX[3]:
             return 3, velo
         else: #When ball is past goalie
             return 4, velo
         
-#goalie: 240-530
+#find yPos of predicted contact with stick
 def yHit(centers):
     stick, velo = whichStick(centers)
     x = stickX[stick]
     frames = (x-centers[0][0])/velo[0]
     yPos = frames*velo[1]+centers[0][1]
-    numTables = yPos//760
-    remainder = yPos % 760
+    numTables = yPos//tableY
+    remainder = yPos % tableY
     if numTables % 2:
-        yPos = 760-remainder
+        yPos = tableY-remainder
     else:
         yPos = remainder
     return int(yPos), stick
 
+#find player to hit with based on predicted yPos
 def whichPlayer(centers):
     yPos, stick = yHit(centers)
     
     if stick == 0: #3-man
-        if yPos < 260:
+        if yPos < table[0][0][0]:
+            #player 1 at motor min
+            pass
+        if yPos < table[0][1][0]:
             #player 1
             pass
-        elif yPos < 309:
+        elif yPos < table[0][0][1]:
+            #overlap stuff
             pass
-        elif yPos < 472:
+        elif yPos < table[0][2][0]:
             #player 2
             pass
-        elif yPos < 521:
+        elif yPos < table[0][1][1]:
+            #overlap stuff
+            pass
+        elif yPos < table[0][2][1]:
+            #player 3
             pass
         else:
-            #player 3
+            #player 3 at motor max
             pass
         
         
@@ -140,21 +154,28 @@ def whichPlayer(centers):
             #player 5
             pass
         
-        
+                                                                                    
         
     elif stick == 2: #2-man
-        if yPos < 330:
+        if yPos < table[2][0][0]:
+            #player 1 at motor min
+            pass
+        elif yPos < table[2][1][0]:
             #player 1
             pass
-        elif yPos < 445:
+        elif yPos < table[2][0][1]:
+            #overlap stuff
+            pass
+        elif yPos < table[2][1][1]:
+            #player 2
             pass
         else:
-            #player 2
+            #player 2 at motor max
             pass
         
         
     elif stick == 3: #goalie
-        if yPos > 240 and yPos < 530:
+        if yPos > table[3][0][0] and yPos < table[3][0][0]:
             #in-range
             pass
         else:

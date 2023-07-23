@@ -22,15 +22,38 @@ cv2.createTrackbar('SMax','image',0,255,nothing)
 cv2.createTrackbar('VMax','image',0,255,nothing)
 
 # Set default value for MAX HSV trackbars.
-cv2.setTrackbarPos('HMax', 'image', 179)
-cv2.setTrackbarPos('SMax', 'image', 255)
+cv2.setTrackbarPos('HMax', 'image', 7)
+cv2.setTrackbarPos('SMax', 'image', 105)
 cv2.setTrackbarPos('VMax', 'image', 255)
+
+cv2.setTrackbarPos('SMin', 'image', 54)
+cv2.setTrackbarPos('VMin', 'image', 246)
+
+cv2.namedWindow('image1')
+cv2.resizeWindow('image1', 500, 250)
+# create trackbars for color change
+cv2.createTrackbar('HMin1','image1',0,179,nothing) # Hue is from 0-179 for Opencv
+cv2.createTrackbar('SMin1','image1',0,255,nothing)
+cv2.createTrackbar('VMin1','image1',0,255,nothing)
+cv2.createTrackbar('HMax1','image1',0,179,nothing)
+cv2.createTrackbar('SMax1','image1',0,255,nothing)
+cv2.createTrackbar('VMax1','image1',0,255,nothing)
+
+# Set default value for MAX HSV trackbars.
+cv2.setTrackbarPos('HMax1', 'image1', 179)
+cv2.setTrackbarPos('SMax1', 'image1', 255)
+cv2.setTrackbarPos('VMax1', 'image1', 255)
+
+cv2.setTrackbarPos('HMin1', 'image1', 172)
+cv2.setTrackbarPos('SMin1', 'image1', 79)
+
 
 # Initialize to check if HSV min/max value changes
 hMin = sMin = vMin = hMax = sMax = vMax = 0
 phMin = psMin = pvMin = phMax = psMax = pvMax = 0
 
-
+hMin1 = sMin1 = vMin1 = hMax1 = sMax1 = vMax1 = 0
+phMin1 = psMin1 = pvMin1 = phMax1 = psMax1 = pvMax1 = 0
 wait_time = 33
 
 while(1):
@@ -43,15 +66,30 @@ while(1):
     sMax = cv2.getTrackbarPos('SMax','image')
     vMax = cv2.getTrackbarPos('VMax','image')
 
+    hMin1 = cv2.getTrackbarPos('HMin1','image1')
+    sMin1 = cv2.getTrackbarPos('SMin1','image1')
+    vMin1 = cv2.getTrackbarPos('VMin1','image1')
+
+    hMax1 = cv2.getTrackbarPos('HMax1','image1')
+    sMax1 = cv2.getTrackbarPos('SMax1','image1')
+    vMax1 = cv2.getTrackbarPos('VMax1','image1')
+
     # Set minimum and max HSV values to display
     lower = np.array([hMin, sMin, vMin])
     upper = np.array([hMax, sMax, vMax])
-
+    
+    lower1 = np.array([hMin1, sMin1, vMin1])
+    upper1 = np.array([hMax1, sMax1, vMax1])
+    
+    
     # Create HSV Image and threshold into a range.
     outputs = []
     for i in images:
         hsv = cv2.cvtColor(i, cv2.COLOR_BGR2HSV)
-        outputs.append(cv2.inRange(hsv, lower, upper))
+        mask = cv2.inRange(hsv, lower, upper)
+        mask1 = cv2.inRange(hsv, lower1, upper1)
+        mask = cv2.bitwise_or(mask, mask1)
+        outputs.append(mask)
 
     #output = cv2.bitwise_and(image,image, mask= mask)
 
@@ -64,6 +102,15 @@ while(1):
         phMax = hMax
         psMax = sMax
         pvMax = vMax
+        
+    if( (phMin1 != hMin1) | (psMin1 != sMin1) | (pvMin1 != vMin1) | (phMax1 != hMax1) | (psMax1 != sMax1) | (pvMax1 != vMax1) ):
+        print("(hMin1 = %d , sMin1 = %d, vMin1 = %d), (hMax1 = %d , sMax1 = %d, vMax1 = %d)" % (hMin1 , sMin1 , vMin1, hMax1, sMax1 , vMax1))
+        phMin1 = hMin1
+        psMin1 = sMin1
+        pvMin1 = vMin1
+        phMax1 = hMax1
+        psMax1 = sMax1
+        pvMax1 = vMax1
 
     # Display output image
     scale_percent = 50 # percent of original size
@@ -76,7 +123,8 @@ while(1):
     for o in outputs:
         resized.append(cv2.resize(o, dim, interpolation = cv2.INTER_AREA))
     for x in range(len(resized)):
-        cv2.imshow(imagenames[x],resized[x])
+        cv2.imshow(imagenames[x]+" mask",resized[x])
+        cv2.imshow(imagenames[x],cv2.resize(images[x], dim, interpolation = cv2.INTER_AREA))
 
     # Wait longer to prevent freeze for videos.
     if cv2.waitKey(wait_time) & 0xFF == ord('q'):
