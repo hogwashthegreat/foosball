@@ -12,10 +12,11 @@ class Handler:
     def __call__(self, cam: Camera, stream: Stream, frame: Frame):
         ENTER_KEY_CODE = 13
 
-        #key = cv2.waitKey(0)
-        #if key == ENTER_KEY_CODE: #
-        #   self.shutdown_event.set()
-        #   return
+        key = cv2.waitKey(1)
+        if key == ENTER_KEY_CODE: #
+           self.shutdown_event.set()
+           return
+        
 
         if frame.get_status() == FrameStatus.Complete:
             #print('{} acquired {}'.format(cam, frame), flush=True)
@@ -41,9 +42,17 @@ class Handler:
             '''
             #Only gets and displays first 1000 frames
             msg = 'Stream from \'{}\'. Press <Enter> to stop stream.'            
-            #cv2.imshow(msg.format(cam.get_name()), display)
+            
+            scale_percent = 50 # percent of original size
+            width = int(display.shape[1] * scale_percent / 100)
+            height = int(display.shape[0] * scale_percent / 100)
+            dim = (width, height)
+            display = cv2.resize(display, dim, interpolation = cv2.INTER_AREA)
+            mask  = cv2.resize(mask, dim, interpolation = cv2.INTER_AREA)
+            cv2.imshow(msg.format(cam.get_name()), display)
+            cv2.imshow("1", mask)
             self.processed_frames += 1
-            if self.processed_frames >= 1000:
+            if self.processed_frames >= 10000:
                 self.shutdown_event.set()
                 return
             
