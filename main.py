@@ -66,11 +66,16 @@ def main():
             setup_camera(cam)
             #get handler class to start streaming
             handler = Handler()
-
+            waitKey = handler.getWaitKey()
+            if waitKey:
+                buffer = 5
+            else:
+                buffer = 1000
+                 
             try:
                 # Start Streaming with a buffer of 5 frames (5 is default)
                 time_ = time.time()
-                cam.start_streaming(handler=handler, buffer_count=5)
+                cam.start_streaming(handler=handler, buffer_count=buffer)
                 handler.shutdown_event.wait()
 
             finally: #after program is ended, print total frames processed and time taken (for fps if needed)

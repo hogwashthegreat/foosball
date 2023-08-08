@@ -9,12 +9,13 @@ class Handler:
         self.shutdown_event = threading.Event()
         self.processed_frames = 0 #test var to check how many frames are being processed to calculate fps
         self.centers = np.zeros((3,2)) #array of tuples with array index 0 being most recent and tuple is (x,y)
-
+        self.waitKey = 1
+    
     def __call__(self, cam: Camera, stream: Stream, frame: Frame):
         #waitkey for opencv stream
         ENTER_KEY_CODE = 13
 
-        key = cv2.waitKey(1)
+        key = cv2.waitKey(self.waitKey)
         if key == ENTER_KEY_CODE: #
            self.shutdown_event.set()
            return
@@ -24,10 +25,28 @@ class Handler:
             display = frame.as_opencv_image() #convert vimba to opencv format
             
             #Get new ball center and update array
-            center, mask = helper.getBallCenter(display)
+            center, radius, mask = helper.getBallCenter(display)
+            """
+            if (abs(center[0] - self.centers[0][0]) > 200) or (abs(center[1] - self.centers[0][1]) > 200):
+                print("distance too big")
+                velo = helper.getVelo(self.centers)
+                #center = (self.centers[0][0] + velo[0],self.centers[0][1] + velo[1])
+                center = self.centers[0]
+            elif radius < 6:
+                print("radius too small")
+                velo = helper.getVelo(self.centers)
+                #center = (self.centers[0][0] + velo[0],self.centers[0][1] + velo[1])
+            """
             self.centers[2] = self.centers[1]
             self.centers[1] = self.centers[0]
             self.centers[0] = center
+            try:
+                cv2.circle(display, (int(self.centers[0][0]), int(self.centers[0][1])), int(radius),
+                    (0, 255, 255), 2)
+                cv2.circle(display, (int(self.centers[0][0]), int(self.centers[0][1])), 5, (0, 0, 255), -1)
+            except:
+                pass
+            
                         
             
             scale_percent = 50 # percent of original size
@@ -39,6 +58,7 @@ class Handler:
             cv2.imshow("Camera", display) 
             cv2.imshow("Mask", mask)
             self.processed_frames += 1 #Frame has been processed
+            #print(self.centers)
             if self.processed_frames >= 10000: #if 10k frames are processed end the program (for testing)
                 self.shutdown_event.set()
                 return
@@ -48,3 +68,6 @@ class Handler:
         
     def getFrames(self): #return number of processed frames (for fps)
         return self.processed_frames
+    
+    def getWaitKey(self):
+        return self.waitKey
