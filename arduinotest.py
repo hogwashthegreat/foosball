@@ -1,91 +1,36 @@
-"""
-from Arduino import Arduino
-import time
-
-board = Arduino()
-board.pinMode(10,"OUTPUT")
-
-while True:
-    print("hi")
-    board.digitalWrite(10,"LOW")
-    time.sleep(1)
-    board.digitalWrite(10,"HIGH")
-    time.sleep(1)
-
-
-#run StandardFirmata if broken to reset firmware
-import pyfirmata
-import time
-
-if __name__ == "__main__":
-    board = pyfirmata.Arduino("COM4")
-    print("hi")
-    while True:
-        input("")
-        t1 = time.time()
-        board.digital[10].write(1)
-        print(time.time()-t1)
-        time.sleep(0.001)
-        board.digital[10].write(0)
-        
-
-from Arduino import Arduino
-import time
-
-board = Arduino()
-board.pinMode(10,"OUTPUT")
-
-while True:
-    print("hi")
-    board.digitalWrite(10,"LOW")
-    time.sleep(1)
-    board.digitalWrite(10,"HIGH")
-    time.sleep(1)
-
-"""
 #run StandardFirmata if broken to reset firmware
 import pyfirmata
 import time
 
 
-board = pyfirmata.Arduino("COM5")
+board = pyfirmata.Arduino("COM4")
 steps = 200
 rotations = 2
 times = 2
-delayTime = .0000001*1
 print("hi")
 
 dirPin = board.get_pin("d:9:o")
 stepPin = board.get_pin("d:6:o")
-def sleep(duration):
-    start = time.perf_counter_ns()
-    while True:
-        elapsed = time.perf_counter_ns()-start
-        remaining = duration-elapsed
-        if remaining <= 0:
-            break
-        if remaining > 0.02:
-            time.sleep(max(remaining/2, 0.0001))
-        else:
-            pass
-def rotate(steps, direciton):
-    dirPin.write(direciton)
+
+def rotate(steps, direction):
+    dirPin.write(direction)
     for a in range(steps):
         stepPin.write(1)
-
         stepPin.write(0)
 
     
-"""
-for x in range(times):
-    for y in range(rotations):
-        dirPin.write(1)
-        rotate(50)
-    time.sleep(0.05)
-"""
+import keyboard  # using module keyboard
+while True:  # making a loop
+    try:  # used try so that if user pressed other than the given key error will not be shown
+        if keyboard.is_pressed('a'):  # if key 'q' is pressed 
+            rotate(1,0)
+              # finishing the loop
+        elif keyboard.is_pressed("d"):
+            rotate(1,1)
+    except:
+        break  # if user pressed a key other than the given key the loop will break
 
 input("")
-
 rotate(400, 0)
 rotate(200, 1) #200
 rotate(322, 0) #522
