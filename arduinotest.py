@@ -2,8 +2,10 @@
 import pyfirmata
 import time
 
-
-board = pyfirmata.Arduino("COM4")
+try:
+    board = pyfirmata.Arduino("COM4")
+except:
+    board = pyfirmata.Arduino("COM5")
 steps = 200
 rotations = 2
 times = 2
