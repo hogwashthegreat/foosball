@@ -10,6 +10,9 @@ imagenames = ['masktests/colormatch12.jpg', 'masktests/colormatch13.jpg', 'maskt
 images = []
 for x in range(len(imagenames)):
     images.append(cv2.imread(imagenames[x]))
+    
+for i in range(len(images)):
+    images[i] = ~images[i]
 # Create a window
 cv2.namedWindow('image')
 cv2.resizeWindow('image', 500, 250)
