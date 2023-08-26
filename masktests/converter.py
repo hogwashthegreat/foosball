@@ -6,7 +6,7 @@ def nothing(x):
     pass
 
 # Load in image
-imagenames = ['masktests/colormatch12.jpg', 'masktests/colormatch13.jpg', 'masktests/colormatch14.jpg']
+imagenames = ['masktests/Screenshot 2023-08-26 085231.jpg', 'masktests/Screenshot 2023-08-26 085413.jpg', 'masktests/Screenshot 2023-08-26 085340.jpg', 'masktests/Screenshot 2023-08-26 085313.jpg']
 images = []
 for x in range(len(imagenames)):
     images.append(cv2.imread(imagenames[x]))

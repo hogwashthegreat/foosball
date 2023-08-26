@@ -50,29 +50,37 @@ def looper(start, stop, step):
             n += step
         
 
-
+''' #old images
 img1 = cv2.imread("masktests/colormatch14.JPG")
 img2 = cv2.imread("masktests/colormatch13.JPG")
 img3 = cv2.imread("masktests/colormatch12.JPG")
+'''
+img1 = cv2.imread("masktests/Screenshot 2023-08-26 085231.jpg")
+img2 = cv2.imread("masktests/Screenshot 2023-08-26 085340.jpg")
+img3 = cv2.imread("masktests/Screenshot 2023-08-26 085413.jpg")
+r = 42
+y = 153
+x = 168
+#crop_img = img[y:y+r, x:x+r]
+#cv2.imshow("crop", crop_img)
+#cv2.setMouseCallback("crop", mouse_callback)
+#cv2.waitKey(0)
 
 imgs = [img1, img2, img3]
 for x in range(len(imgs)):
     imgs[x] = ~imgs[x]
-coords = [(1020, 246), (299, 524), (657, 342)]
+#old coords:
+# coords = [(1020, 246), (299, 524), (657, 342)]
+coords = [(882, 478, 28), (393, 318, 19), (168, 153, 21)]
 
-r = 36
-y = 524
-x = 299
-#crop_img = img2[y:y+r, x:x+r]
-#cv2.imshow("crop", crop_img)
-#cv2.waitKey(0)
+
 values = []
 points = []
 hsvs = []
 for z in range(len(imgs)):
     img = imgs[z]
     h, w, c = img.shape 
-    pointsIn, pointsOut = getPoints(w, h, coords[z][0], coords[z][1], 18)
+    pointsIn, pointsOut = getPoints(w, h, coords[z][0], coords[z][1], coords[z][2])
     points.append((pointsIn, pointsOut)) 
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     hsvs.append(hsv)
@@ -111,7 +119,7 @@ def hsvMask(points, vmin, vmax, step, values, hsvType, topScore, absMax, hsvs):
                         s2 = 255
                         v1 = 0
                         v2 = 255
-                        weight = 200
+                        weight = 217
                         
                     elif hsvType == 1:
                         s1 = a
@@ -120,7 +128,7 @@ def hsvMask(points, vmin, vmax, step, values, hsvType, topScore, absMax, hsvs):
                         h2 = values[1][0]
                         v1 = 0
                         v2 = 255
-                        weight = 3
+                        weight = 10
                     else:
                         v1 = a
                         v2 = b
@@ -128,7 +136,7 @@ def hsvMask(points, vmin, vmax, step, values, hsvType, topScore, absMax, hsvs):
                         h2 = values[1][0]
                         s1 = values[0][1]
                         s2 = values[1][1]
-                        weight = 3
+                        weight = 100
                     lower = np.array([h1, s1, v1])
                     upper = np.array([h2, s2, v2])
                     totalNumIn = 0
@@ -180,5 +188,5 @@ for i in range(len(hsvs)):
     hsv = hsvs[i]
     mask = cv2.inRange(hsv, lower, upper)
     cv2.imshow(str(i)+"mask", mask)
-    cv2.imshow(str(i)+"img", img)
+    cv2.imshow(str(i)+"img", imgs[i])
 cv2.waitKey(0)
