@@ -222,8 +222,8 @@ def uninvert(lower, upper):
         upper1 = np.array([179, upper[1], upper[2]])
         lower2 = np.array([0, lower[1], lower[2]])
     else:
-        upper1 = np.array(upperred[0], upper[1], upper[2])
-        lower2 = np.array(lowerred[0], lower[1], lower[2])
+        upper1 = np.array([upperred[0], upper[1], upper[2]])
+        lower2 = np.array([lowerred[0], lower[1], lower[2]])
 
     upper2 = np.array([upperred[0],upper[1],upper[2]])
 
