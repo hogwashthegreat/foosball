@@ -39,7 +39,7 @@ def numPoints(mask, pointsIn, pointsOut, totalPoints, weight):
     return score
 
 def looper(start, stop, step):
-    n =  start 
+    n = start 
     while n <= stop:
         yield n
         if n + step > stop and n != stop:
@@ -139,8 +139,6 @@ def hsvMask(points, vmin, vmax, step, values, hsvType, topScore, absMax, hsvs):
                         weight = 100
                     lower = np.array([h1, s1, v1])
                     upper = np.array([h2, s2, v2])
-                    totalNumIn = 0
-                    totalNumOut = 0
                     score = 0
                     for i in range(len(hsvs)):
                         hsv = hsvs[i]
