@@ -103,8 +103,9 @@ def fullMask(points):
     values = hsvMask(points, (0, 255), (0, 255), 126, values, 1, 10000000000000, 255, hsvs)
     print("v")
     values = hsvMask(points, (0, 255), (0, 255), 126, values, 2, 10000000000000, 255, hsvs)
-    
-    return values
+    lower = np.array(values[0])
+    upper = np.array(values[1])
+    return uninvert(lower, upper)
 
 
 def hsvMask(points, vmin, vmax, step, values, hsvType, topScore, absMax, hsvs):
