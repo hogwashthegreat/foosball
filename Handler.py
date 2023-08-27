@@ -23,7 +23,7 @@ class Handler:
         #frame processing
         if frame.get_status() == FrameStatus.Complete:
             display = frame.as_opencv_image() #convert vimba to opencv format
-            
+
             #Get new ball center and update array
             center, radius, mask = helper.getBallCenter(display)
             """
