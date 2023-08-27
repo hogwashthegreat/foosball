@@ -19,9 +19,11 @@ for i in range(len(image)):
 #print(image[0][0])
 #cv2.imshow("test",image)
 
+lower = np.array([52,47,98])
 
-lower = np.uint8([[[43,88,109]]])
-upper = np.uint8([[[92,255,255]]])
+#lower = np.uint8([[[43,88,109]]])
+lower = np.uint8([[lower]])
+upper = np.uint8([[[94,255,217]]])
 
 
 

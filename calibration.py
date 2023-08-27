@@ -199,4 +199,41 @@ for i in range(len(hsvs)):
     mask = cv2.inRange(hsv, lower, upper)
     cv2.imshow(str(i)+"mask", mask)
     cv2.imshow(str(i)+"img", imgs[i])
+
+def uninvert(lower, upper):
+    lower = np.uint8([[lower]])
+    upper = np.uint8([[upper]])
+
+    lowerred = ~cv2.cvtColor(lower,cv2.COLOR_HSV2BGR)
+    upperred = ~cv2.cvtColor(upper,cv2.COLOR_HSV2BGR)
+
+    lowerred = cv2.cvtColor(lowerred,cv2.COLOR_BGR2HSV)
+    upperred = cv2.cvtColor(upperred,cv2.COLOR_BGR2HSV)
+
+
+    lower = lower[0][0]
+    upper = upper[0][0]
+    lowerred = lowerred[0][0]
+    upperred = upperred[0][0]
+
+
+    lower1 = np.array([lowerred[0], lower[1], lower[2]])
+    if upperred[0] < lowerred[0]:
+        upper1 = np.array([179, upper[1], upper[2]])
+        lower2 = np.array([0, lower[1], lower[2]])
+    else:
+        upper1 = np.array(upperred[0], upper[1], upper[2])
+        lower2 = np.array(lowerred[0], lower[1], lower[2])
+
+    upper2 = np.array([upperred[0],upper[1],upper[2]])
+
+    print("mask1")
+    print(lower1)
+    print(upper1)
+
+    print("mask2")
+    print(lower2)
+    print(upper2)
+    return lower1, upper1, lower2, upper2
+
 cv2.waitKey(0)
