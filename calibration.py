@@ -54,25 +54,32 @@ def looper(start, stop, step):
 img1 = cv2.imread("masktests/colormatch14.JPG")
 img2 = cv2.imread("masktests/colormatch13.JPG")
 img3 = cv2.imread("masktests/colormatch12.JPG")
-'''
+
 img1 = cv2.imread("masktests/Screenshot 2023-08-26 085231.jpg")
 img2 = cv2.imread("masktests/Screenshot 2023-08-26 085340.jpg")
 img3 = cv2.imread("masktests/Screenshot 2023-08-26 085413.jpg")
-r = 42
-y = 153
-x = 168
+'''
+
+r = 38
+y = 36
+x = 812
+img1 = cv2.imread("masktests/today1.jpg")
+img2 = cv2.imread("masktests/today2.jpg")
+img3 = cv2.imread("masktests/today3.jpg")
+img4 = cv2.imread("masktests/today4.jpg")
+img5 = cv2.imread("masktests/today5.jpg")
 #crop_img = img[y:y+r, x:x+r]
 #cv2.imshow("crop", crop_img)
 #cv2.setMouseCallback("crop", mouse_callback)
 #cv2.waitKey(0)
 
-imgs = [img1, img2, img3]
+imgs = [img1, img2, img3, img4, img5]
 for x in range(len(imgs)):
     imgs[x] = ~imgs[x]
 #old coords:
 # coords = [(1020, 246), (299, 524), (657, 342)]
-coords = [(882, 478, 28), (393, 318, 19), (168, 153, 21)]
-
+#coords = [(882, 478, 28), (393, 318, 19), (168, 153, 21)]
+coords = [(823+19, 690+19, 19), (498+19, 209+19, 19), (1108+19, 211+19, 19), (175+19, 577+19, 19), (812+19, 36+19, 19)]
 
 values = []
 points = []
@@ -155,6 +162,11 @@ def hsvMask(points, vmin, vmax, step, values, hsvType, topScore, absMax, hsvs):
                         print(f'score: {score}')
                         topScore = score
                         values = [(h1, s1, v1),(h2, s2, v2)] 
+                        hsv = hsvs[0]
+                        mask = cv2.inRange(hsv, lower, upper)
+                        cv2.imshow("mask", mask)
+                        cv2.waitKey(1000)
+                        cv2.destroyWindow("mask")
                         print(values)
                         
     step = math.floor(step/2)

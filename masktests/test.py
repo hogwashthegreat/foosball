@@ -1,9 +1,13 @@
 import numpy as np
 import cv2
-
+import time
 image = cv2.imread("masktests/colormatch14.JPG")
 print(image[0][0])
+cv2.imshow("a", image)
+cv2.waitKey(1000)
 image = ~image
+cv2.imshow("a", image)
+cv2.waitKey(0)
 print(image[0][0])
 image = cv2.cvtColor(image,cv2.COLOR_BGR2HSV)
 #image = ~image
@@ -42,4 +46,3 @@ print(upperred[0][0][0],upper[0][0][1],upper[0][0][2])
 #print(~lower)
 #print(~upper)
 
-cv2.waitKey(0)
