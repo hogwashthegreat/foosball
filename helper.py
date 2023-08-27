@@ -11,17 +11,17 @@ table = [[[45, 309], [260, 521], [472, 736]],
          [[50, 445], [330, 740]], 
          [[240, 530]]]
 
-def getBallCenter(frame):
+def getBallCenter(frame, lower1, lower2, upper1, upper2):
     radius = 0
     #convert color format to hsv for masking
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     #lower range of red mask
-    lower_red = np.array([0, 54, 246])
-    upper_red = np.array([7, 105, 255])
+    lower_red = lower1
+    upper_red = upper1
     #upper range of red mask
-    lower_red2 = np.array([172, 78, 0])
-    upper_red2 = np.array([179, 255, 255])
+    lower_red2 = lower2
+    upper_red2 = upper2
     
 
     #get low and high mask then combine with bitwise OR

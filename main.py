@@ -2,7 +2,6 @@ import sys
 from typing import Optional  
 import time
 from vmbpy import *
-
 from Handler import Handler
 
 # All frames will either be recorded in this format, or transformed to it before being displayed

@@ -2,9 +2,7 @@ import cv2
 import numpy as np
 import time
 import math
-def mouse_callback(event, x, y, flags, params):
-    if event == cv2.EVENT_LBUTTONDOWN:
-        print(f"coords {x, y}, colors Blue- {img[y, x, 0]} , Green- {img[y, x, 1]}, Red- {img[y, x, 2]} ")
+
 
 
 
@@ -58,7 +56,7 @@ img3 = cv2.imread("masktests/colormatch12.JPG")
 img1 = cv2.imread("masktests/Screenshot 2023-08-26 085231.jpg")
 img2 = cv2.imread("masktests/Screenshot 2023-08-26 085340.jpg")
 img3 = cv2.imread("masktests/Screenshot 2023-08-26 085413.jpg")
-'''
+
 
 r = 38
 y = 36
@@ -81,21 +79,26 @@ for x in range(len(imgs)):
 #coords = [(882, 478, 28), (393, 318, 19), (168, 153, 21)]
 coords = [(823+19, 690+19, 19), (498+19, 209+19, 19), (1108+19, 211+19, 19), (175+19, 577+19, 19), (812+19, 36+19, 19)]
 
-values = []
-points = []
-hsvs = []
-for z in range(len(imgs)):
-    img = imgs[z]
-    h, w, c = img.shape 
-    pointsIn, pointsOut = getPoints(w, h, coords[z][0], coords[z][1], coords[z][2])
-    points.append((pointsIn, pointsOut)) 
-    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    hsvs.append(hsv)
+
+
                  #centerx centery radius  
 
-
+'''
 #weights: 200, 200, 1 for regular, 200, 3, 3 inverted
-def fullMask(points):
+def fullMask(coords, frames):
+    points = []
+    hsvs = []
+    for z in range(len(frames)):
+        img = ~(frames[z])
+        h, w, c = img.shape 
+        cv2.circle(img, (int(coords[z][0]), int(coords[z][1])), 19, (0, 0, 0), 2)
+        cv2.imshow(str(z), img)
+        
+        pointsIn, pointsOut = getPoints(w, h, coords[z][0], coords[z][1], coords[z][2])
+        points.append((pointsIn, pointsOut)) 
+        hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+        hsvs.append(hsv)
+    cv2.waitKey(0)
     values = [(0,0,0), (179,255,255)]
     
     values = hsvMask(points, (0, 179), (0, 179), 88, values, 0, 10000000000000, 179, hsvs)
@@ -189,17 +192,7 @@ def hsvMask(points, vmin, vmax, step, values, hsvType, topScore, absMax, hsvs):
 
     return hsvMask(points, vMin, vMax, step, values, hsvType, topScore, absMax, hsvs)
 
-t1 = time.time()
-val = fullMask(points)
-print(val)
-print(f"{time.time()-t1} seconds")
-lower = np.array(val[0])
-upper = np.array(val[1])
-for i in range(len(hsvs)):
-    hsv = hsvs[i]
-    mask = cv2.inRange(hsv, lower, upper)
-    cv2.imshow(str(i)+"mask", mask)
-    cv2.imshow(str(i)+"img", imgs[i])
+
 
 def uninvert(lower, upper):
     lower = np.uint8([[lower]])
@@ -236,5 +229,3 @@ def uninvert(lower, upper):
     print(lower2)
     print(upper2)
     return lower1, upper1, lower2, upper2
-
-cv2.waitKey(0)
