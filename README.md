@@ -18,4 +18,4 @@ Motor: Nema 23
 
 Belt Drive: Heechoo High Speed 400mm Belt Drive Linear Guide Rail Motion Slide Actuator Module
 
-Other: Fielect Shaft coupling
+Other: Fielect Shaft Coupling
