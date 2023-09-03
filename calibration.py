@@ -77,7 +77,7 @@ for x in range(len(imgs)):
 #old coords:
 # coords = [(1020, 246), (299, 524), (657, 342)]
 #coords = [(882, 478, 28), (393, 318, 19), (168, 153, 21)]
-coords = [(823+19, 690+19, 19), (498+19, 209+19, 19), (1108+19, 211+19, 19), (175+19, 577+19, 19), (812+19, 36+19, 19)]
+
 
 
 
@@ -85,7 +85,7 @@ coords = [(823+19, 690+19, 19), (498+19, 209+19, 19), (1108+19, 211+19, 19), (17
 
 '''
 #weights: 200, 200, 1 for regular, 200, 3, 3 inverted
-def fullMask(coords, frames):
+def fullMask(coords, frames):  
     points = []
     hsvs = []
     for z in range(len(frames)):
@@ -99,6 +99,7 @@ def fullMask(coords, frames):
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         hsvs.append(hsv)
     cv2.waitKey(0)
+    t1 = time.time()
     values = [(0,0,0), (179,255,255)]
     
     values = hsvMask(points, (0, 179), (0, 179), 88, values, 0, 10000000000000, 179, hsvs)
@@ -108,6 +109,7 @@ def fullMask(coords, frames):
     values = hsvMask(points, (0, 255), (0, 255), 126, values, 2, 10000000000000, 255, hsvs)
     lower = np.array(values[0])
     upper = np.array(values[1])
+    print(f"time: {time.time()-t1} seconds")
     return uninvert(lower, upper)
 
 
@@ -211,15 +213,15 @@ def uninvert(lower, upper):
     upperred = upperred[0][0]
 
 
-    lower1 = np.array([lowerred[0], lower[1], lower[2]])
+    lower1 = np.array([lowerred[0], lower[1], lower[2]], dtype=np.uint8)
     if upperred[0] < lowerred[0]:
-        upper1 = np.array([179, upper[1], upper[2]])
-        lower2 = np.array([0, lower[1], lower[2]])
+        upper1 = np.array([179, upper[1], upper[2]], dtype=np.uint8)
+        lower2 = np.array([0, lower[1], lower[2]], dtype=np.uint8)
     else:
-        upper1 = np.array([upperred[0], upper[1], upper[2]])
-        lower2 = np.array([lowerred[0], lower[1], lower[2]])
+        upper1 = np.array([upperred[0], upper[1], upper[2]], dtype=np.uint8)
+        lower2 = np.array([lowerred[0], lower[1], lower[2]], dtype=np.uint8)
 
-    upper2 = np.array([upperred[0],upper[1],upper[2]])
+    upper2 = np.array([upperred[0],upper[1],upper[2]], dtype=np.uint8)
 
     print("mask1")
     print(lower1)
@@ -228,4 +230,16 @@ def uninvert(lower, upper):
     print("mask2")
     print(lower2)
     print(upper2)
+    print(type(lower1))
+    print(lower1[0])
     return lower1, upper1, lower2, upper2
+
+coords = [(823+19, 690+19, 19), (498+19, 209+19, 19), (1108+19, 211+19, 19), (175+19, 577+19, 19), (812+19, 36+19, 19)]
+
+img1 = cv2.imread("masktests/today1.jpg")
+img2 = cv2.imread("masktests/today2.jpg")
+img3 = cv2.imread("masktests/today3.jpg")
+img4 = cv2.imread("masktests/today4.jpg")
+img5 = cv2.imread("masktests/today5.jpg")
+frames = [img1, img2, img3, img4, img5]
+print(fullMask(coords, frames))
