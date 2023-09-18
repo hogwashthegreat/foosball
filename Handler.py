@@ -11,7 +11,7 @@ class Handler:
         self.processed_frames = 0 #test var to check how many frames are being processed to calculate fps
         self.centers = np.zeros((3,2)) #array of tuples with array index 0 being most recent and tuple is (x,y)
         self.waitKey = 1
-        self.calibrate = 6 #positive is calibrating and 0 is not
+        self.calibrate = 0 #positive is calibrating and 0 is not
         self.coords = []
         self.frames = []
         self.needFrame = False

@@ -234,6 +234,10 @@ def uninvert(lower, upper):
     print(lower1[0])
     return lower1, upper1, lower2, upper2
 
+"""
+lower = np.array([44,62,127])
+upper = np.array([91,178,204])
+print(uninvert(lower, upper))
 coords = [(823+19, 690+19, 19), (498+19, 209+19, 19), (1108+19, 211+19, 19), (175+19, 577+19, 19), (812+19, 36+19, 19)]
 
 img1 = cv2.imread("masktests/today1.jpg")
@@ -243,3 +247,4 @@ img4 = cv2.imread("masktests/today4.jpg")
 img5 = cv2.imread("masktests/today5.jpg")
 frames = [img1, img2, img3, img4, img5]
 print(fullMask(coords, frames))
+"""
