@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import imutils
-
+import motorhelper
 #stick x locations of camera pixels
 stickX = {0:410, 1:740, 2:1070, 3:1230, 4:-1}
 tableY = 760 #table height
@@ -152,22 +152,25 @@ def whichPlayer(centers, board, sticks, stickPos):
         
                                                                                     
         
-    elif stickNum == 2: #2-man
+    elif stickNum == 2: #2-man, 18 and 304 magic numbers
         if yPos < table[2][0][0]:
             #player 1 at motor min
-            pass
+            return stickNum, motorhelper.moveTo(stickPos, 0, stick, board)
+
         elif yPos < table[2][1][0]:
             #player 1
-            pass
+            return stickNum, motorhelper.moveTo(stickPos, yPos-18, stick, board)
         elif yPos < table[2][0][1]:
             #overlap stuff
             pass
         elif yPos < table[2][1][1]:
             #player 2
-            pass
+            return stickNum, motorhelper.moveTo(stickPos, yPos-304, stick, board)
+
         else:
             #player 2 at motor max
-            pass
+            return stickNum, motorhelper.moveTo(stickPos, table[2][1][1]-304, stick, board)
+
         
         
     elif stickNum == 3: #goalie

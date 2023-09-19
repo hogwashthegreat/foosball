@@ -74,7 +74,8 @@ class Handler:
                 self.centers[2] = self.centers[1]
                 self.centers[1] = self.centers[0]
                 self.centers[0] = center
-                helper.whichPlayer(self.centers, self.board, self.sticks, self.stickPos)
+                num, yPos = helper.whichPlayer(self.centers, self.board, self.sticks, self.stickPos)
+                self.stickPos[num] = yPos
                 try:
                     cv2.circle(display, (int(self.centers[0][0]), int(self.centers[0][1])), int(radius),
                         (0, 255, 255), 2)
