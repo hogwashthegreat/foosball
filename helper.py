@@ -162,7 +162,10 @@ def whichPlayer(centers, board, sticks, stickPos):
             return stickNum, motorhelper.moveTo(stickPos, yPos-18, stick, board)
         elif yPos < table[2][0][1]:
             #overlap stuff
-            pass
+            if abs(yPos-(stickPos+18)) > abs(yPos-(stickPos+304)):
+                return stickNum, motorhelper.moveTo(stickPos, yPos-304, stick, board)
+            else:
+                return stickNum, motorhelper.moveTo(stickPos, yPos-18, stick, board)
         elif yPos < table[2][1][1]:
             #player 2
             return stickNum, motorhelper.moveTo(stickPos, yPos-304, stick, board)
