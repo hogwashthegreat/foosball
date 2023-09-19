@@ -1,18 +1,30 @@
 import pyfirmata
 
+pixelToPulse = 100/43
+
 def setup():
     try:
         board = pyfirmata.Arduino("COM4")
     except:
         board = pyfirmata.Arduino("COM5")
+    lateralMotor = [board.get_pin("d:9:o"), board.get_pin("d:6:0")] #dir:9, step:6
+    rotateMotor = [board.get_pin("d:10:o"), board.get_pin("d:5:o")] #dir"10, step:5
+    stick = [lateralMotor, rotateMotor]
 
-    dirPin = [board.get_pin("d:9:o"), board.get_pin("d:10:o")] #dirpin 9,10
-    stepPin = [board.get_pin("d:6:o"), board.get_pin("d:5:o")] #steppin 6,5
-    return board, dirPin, stepPin
+    return board, stick
 
-def rotate(steps, direction, motor, dirPin, stepPin):
-    dirPin[motor].write(direction)
+def move(steps, direction, motor):
+    dirPin = motor[0][0]
+    stepPin = motor[0][1]
+    dirPin.write(direction)
     for a in range(steps):
-        stepPin[motor].write(1)
-        stepPin[motor].write(0)
+        stepPin.write(1)
+        stepPin.write(0)
 
+def move(start, end, motor):
+    distance = abs(end-start)
+    if end-start > 0:
+        direction = 1
+    elif end-start < 0:
+        direction = 0
+    
