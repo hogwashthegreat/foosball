@@ -38,7 +38,7 @@ def moveTo(start, end, stick, board):
     rotate(distance, direction, motor, board)
     return end
     
-def reset(frame, sticks):
+def getPos(frame):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     lower_red = np.array([0,0,0])
     upper_red = np.array([179,255,50])
@@ -54,19 +54,19 @@ def reset(frame, sticks):
 	# only proceed if at least one contour was found
     if len(cnts) > 0:
         # find the largest contour in the mask, then use it to compute the minimum enclosing circle and centroid
-        players = []
+        players = [2000,2000,2000,2000]
         for c in cnts:
         #c = max(cnts, key=cv2.contourArea)
             ((x, y), radius) = cv2.minEnclosingCircle(c)
-            M = cv2.moments(c)
-            if M["m00"] != 0:
-                center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
-            if (x < 1111) and (x > 990):
-                players.append((x,y))
+            if (radius > 30):
+                minY = 2000
+                if (x < 1111) and (x > 990): #2 man, x range
+                    if y < players[2]:
+                        players[2] = y
 
     print(players)
     for player in players:
-        cv2.circle(frame, (int(player[0]), int(player[1])), int(radius), (0, 255, 255), 2)
+        cv2.circle(frame, (int(1050), int(player)), int(1), (0, 255, 255), 2)
     cv2.imshow("frame", frame)
     cv2.imshow("mask", mask)
     cv2.waitKey(0)
@@ -74,8 +74,8 @@ def reset(frame, sticks):
     # 
     #
     #990 1111
-    playerY = [0,0,0,0]
     #for i in range(len(sticks)):
     #    moveTo(playerY[i], 0, sticks[i])
+    return players
 
-reset(cv2.imread("masktests\\blackguy.jpg"),0)
+getPos(cv2.imread("masktests\\blackguy2.jpg"))
