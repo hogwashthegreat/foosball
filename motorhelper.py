@@ -38,3 +38,44 @@ def moveTo(start, end, stick, board):
     rotate(distance, direction, motor, board)
     return end
     
+def reset(frame, sticks):
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    lower_red = np.array([0,0,0])
+    upper_red = np.array([179,255,50])
+    mask = cv2.inRange(hsv, lower_red, upper_red)
+
+    kernel = np.ones((4,4),np.uint8)
+    mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
+    mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+    cnts = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    cnts = imutils.grab_contours(cnts)
+    center = None
+
+	# only proceed if at least one contour was found
+    if len(cnts) > 0:
+        # find the largest contour in the mask, then use it to compute the minimum enclosing circle and centroid
+        players = []
+        for c in cnts:
+        #c = max(cnts, key=cv2.contourArea)
+            ((x, y), radius) = cv2.minEnclosingCircle(c)
+            M = cv2.moments(c)
+            if M["m00"] != 0:
+                center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
+            if (x < 1111) and (x > 990):
+                players.append((x,y))
+
+    print(players)
+    for player in players:
+        cv2.circle(frame, (int(player[0]), int(player[1])), int(radius), (0, 255, 255), 2)
+    cv2.imshow("frame", frame)
+    cv2.imshow("mask", mask)
+    cv2.waitKey(0)
+    #get players y
+    # 
+    #
+    #990 1111
+    playerY = [0,0,0,0]
+    #for i in range(len(sticks)):
+    #    moveTo(playerY[i], 0, sticks[i])
+
+reset(cv2.imread("masktests\\blackguy.jpg"),0)
