@@ -105,10 +105,11 @@ def yHit(centers):
     return int(yPos), stick #return predicted yposition of collision and stick collided with
 
 #find player to hit with based on predicted yPos
-def whichPlayer(centers):
-    yPos, stick = yHit(centers)
-    
-    if stick == 0: #3-man
+def whichPlayer(centers, board, sticks, stickPos):
+    yPos, stickNum = yHit(centers)
+    stick = sticks[stickNum]
+    stickPos = stickPos[stickNum]
+    if stickNum == 0: #3-man
         if yPos < table[0][0][0]:
             #player 1 at motor min
             pass
@@ -132,7 +133,7 @@ def whichPlayer(centers):
             pass
         
         
-    elif stick == 1: #5-man
+    elif stickNum == 1: #5-man
         if yPos < 180:
             #player 1
             pass
@@ -151,7 +152,7 @@ def whichPlayer(centers):
         
                                                                                     
         
-    elif stick == 2: #2-man
+    elif stickNum == 2: #2-man
         if yPos < table[2][0][0]:
             #player 1 at motor min
             pass
@@ -169,7 +170,7 @@ def whichPlayer(centers):
             pass
         
         
-    elif stick == 3: #goalie
+    elif stickNum == 3: #goalie
         if yPos > table[3][0][0] and yPos < table[3][0][0]:
             #in-range
             pass
@@ -178,6 +179,6 @@ def whichPlayer(centers):
             pass
         
         
-    elif stick == 4: #if past our goalie stick
+    elif stickNum == 4: #if past our goalie stick
         pass
     
