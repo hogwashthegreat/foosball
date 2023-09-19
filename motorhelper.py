@@ -38,7 +38,7 @@ def moveTo(start, end, stick, board):
     rotate(distance, direction, motor, board)
     return end
     
-def getPos(frame):
+def getStickPos(frame):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     lower_red = np.array([0,0,0])
     upper_red = np.array([179,255,50])
