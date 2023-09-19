@@ -42,14 +42,13 @@ def getStickPos(frame):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     lower_red = np.array([0,0,0])
     upper_red = np.array([179,255,50])
-    mask = cv2.inRange(hsv, lower_red, upper_red)
+    mask = cv2.inRange(hsv, lower_red, upper_red) #black player mask
 
     kernel = np.ones((4,4),np.uint8)
     mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
     mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
     cnts = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    cnts = imutils.grab_contours(cnts)
-    center = None
+    cnts = imutils.grab_contours(cnts) #find circles
 
 	# only proceed if at least one contour was found
     if len(cnts) > 0:
@@ -58,8 +57,7 @@ def getStickPos(frame):
         for c in cnts:
         #c = max(cnts, key=cv2.contourArea)
             ((x, y), radius) = cv2.minEnclosingCircle(c)
-            if (radius > 30):
-                minY = 2000
+            if (radius > 30): #if big enough to be a player
                 if (x < 1111) and (x > 990): #2 man, x range
                     if y < players[2]:
                         players[2] = y
