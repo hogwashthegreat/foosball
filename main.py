@@ -49,7 +49,7 @@ def get_camera(camera_id: Optional[str]) -> Camera:
 def setup_camera(cam: Camera):
     with cam:
         try:
-            cam.load_settings("camerasettings.xml", PersistType.All)
+            cam.load_settings("camera_settings1.xml", PersistType.All)
             cam.set_pixel_format(PixelFormat.Bgr8)
         except (AttributeError, VmbFeatureError):
             pass
