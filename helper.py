@@ -152,7 +152,7 @@ def whichPlayer(centers, board, sticks, stickPos):
         
                                                                                     
         
-    elif stickNum == 2: #2-man, 18 and 304 magic numbers
+    elif stickNum == 2: #2-man, 18 and 304 magic numbers, position of each player at motor 0
         if yPos < table[2][0][0]:
             #player 1 at motor min
             return stickNum, motorhelper.moveTo(stickPos, 0, stick, board)
