@@ -1,6 +1,7 @@
 #run StandardFirmata if broken to reset firmware
 import pyfirmata
 import time
+import numpy as np
 
 try:
     board = pyfirmata.Arduino("COM4")
@@ -22,7 +23,14 @@ def rotate(steps, direction, motor):
         stepPin[motor].write(1)
         stepPin[motor].write(0)
 
-    
+
+def reset(frame):
+    lower = np.array([0,0,0])
+    upper = np.array([255,255,10])
+
+rotate(100,0,0)
+
+
 import keyboard  # using module keyboardljljljlj
 while True:  # making a loop
     try:  # used try so that if user pressed other than the given key error will not be shown

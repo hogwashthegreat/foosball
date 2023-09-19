@@ -1,7 +1,5 @@
 import pyfirmata
 
-pixelToPulse = 100/43
-
 def setup():
     try:
         board = pyfirmata.Arduino("COM4")
@@ -21,10 +19,3 @@ def move(steps, direction, motor):
         stepPin.write(1)
         stepPin.write(0)
 
-def move(start, end, motor):
-    distance = abs(end-start)
-    if end-start > 0:
-        direction = 1
-    elif end-start < 0:
-        direction = 0
-    

@@ -29,6 +29,11 @@ def getBallCenter(frame, lower1, lower2, upper1, upper2):
     lower_red2 = np.array([0,62,127])
     upper_red2 = np.array([1,178,204])
     
+    lower_red = np.array([0,0,0])
+    upper_red = np.array([179,255,50])
+
+    lower_red2 = np.array([0,0,0])
+    upper_red2 = np.array([0,0,0])
 
     #get low and high mask then combine with bitwise OR
     mask = cv2.inRange(hsv, lower_red, upper_red)

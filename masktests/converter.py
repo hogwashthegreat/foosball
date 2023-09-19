@@ -6,13 +6,13 @@ def nothing(x):
     pass
 
 # Load in image
-imagenames = ['masktests/Screenshot 2023-08-26 085231.jpg', 'masktests/Screenshot 2023-08-26 085413.jpg', 'masktests/Screenshot 2023-08-26 085340.jpg']
+imagenames = ['masktests\\blackguy.jpg']
 images = []
 for x in range(len(imagenames)):
     images.append(cv2.imread(imagenames[x]))
     
-for i in range(len(images)):
-    images[i] = ~images[i]
+#for i in range(len(images)):
+#    images[i] = ~images[i]
 # Create a window
 cv2.namedWindow('image')
 cv2.resizeWindow('image', 500, 250)
