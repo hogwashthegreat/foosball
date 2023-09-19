@@ -54,17 +54,27 @@ def getStickPos(frame):
     if len(cnts) > 0:
         # find the largest contour in the mask, then use it to compute the minimum enclosing circle and centroid
         players = [2000,2000,2000,2000]
+        playerX = [[325,475],[675,800],[990,1111],[1150,1300]]
         for c in cnts:
         #c = max(cnts, key=cv2.contourArea)
             ((x, y), radius) = cv2.minEnclosingCircle(c)
             if (radius > 30): #if big enough to be a player
-                if (x < 1111) and (x > 990): #2 man, x range
+                if (x > playerX[0][0]) and (x < playerX[0][1]): #2 man, x range
+                    if y < players[0]:
+                        players[0] = y
+                elif (x > playerX[1][0]) and (x < playerX[1][1]): #2 man, x range
+                    if y < players[1]:
+                        players[1] = y
+                elif (x > playerX[2][0]) and (x < playerX[2][1]): #2 man, x range
                     if y < players[2]:
                         players[2] = y
+                elif (x > playerX[3][0]) and (x < playerX[3][1]): #2 man, x range
+                    if y < players[3]:
+                        players[3] = y
 
     print(players)
-    for player in players:
-        cv2.circle(frame, (int(1050), int(player)), int(1), (0, 255, 255), 2)
+    for i in range(len(players)):
+        cv2.circle(frame, (int((playerX[i][1]+playerX[i][0])/2), int(players[i])), int(20), (0, 255, 255), 2)
     cv2.imshow("frame", frame)
     cv2.imshow("mask", mask)
     cv2.waitKey(0)
@@ -76,4 +86,4 @@ def getStickPos(frame):
     #    moveTo(playerY[i], 0, sticks[i])
     return players
 
-getPos(cv2.imread("masktests\\blackguy2.jpg"))
+getStickPos(cv2.imread("masktests\\today5.jpg"))

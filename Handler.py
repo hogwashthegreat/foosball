@@ -98,6 +98,8 @@ class Handler:
                 if self.processed_frames >= 10000: #if 10k frames are processed end the program (for testing)
                     self.shutdown_event.set()
                     return
+                if self.processed_frames % 60 == 0:
+                    self.stickPos = motorhelper.getStickPos(display)
                 
 
         cam.queue_frame(frame) #get next frame from buffer
