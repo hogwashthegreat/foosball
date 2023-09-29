@@ -21,7 +21,7 @@ class Handler:
         self.lower2 = None
         self.upper2 = None
         self.board, self.sticks = motorhelper.setup()
-        self.stickPos = [0,0,0,0]
+        self.stickPos = []
     def mouse_callback(self, event, x, y, flags, params):
         if event == cv2.EVENT_LBUTTONDOWN:
             self.needFrame = True

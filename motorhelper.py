@@ -31,6 +31,7 @@ def moveTo(start, end, stick, board):
     print(end)
     pixelToPulse = 100/43
     distance = abs(end-start) * pixelToPulse
+    distance = 10
     direction = 0
     if (end-start) > 0:
         direction = 1
