@@ -12,7 +12,7 @@ class Handler:
         self.processed_frames = 0 #test var to check how many frames are being processed to calculate fps
         self.centers = np.zeros((3,2)) #array of tuples with array index 0 being most recent and tuple is (x,y)
         self.waitKey = 1
-        self.calibrate = 0 #positive is calibrating and 0 is not
+        self.calibrate = 4 #positive is calibrating and 0 is not
         self.coords = []
         self.frames = []
         self.needFrame = False
@@ -25,7 +25,7 @@ class Handler:
     def mouse_callback(self, event, x, y, flags, params):
         if event == cv2.EVENT_LBUTTONDOWN:
             self.needFrame = True
-            self.coords.append((x, y, 19))
+            self.stickPos.append(y)
             self.calibrate -= 1
             if self.calibrate == 0:
                 cv2.destroyWindow("calibrate")
@@ -51,7 +51,7 @@ class Handler:
                 self.calibrate -= 1
                 print(len(self.frames))
                 print(self.coords)
-                self.lower1, self.upper1, self.lower2, self.upper2 = fullMask(self.coords, self.frames)
+                #self.lower1, self.upper1, self.lower2, self.upper2 = fullMask(self.coords, self.frames)
                 
             if self.calibrate > 0:
                 cv2.imshow("calibrate", display)
@@ -93,16 +93,13 @@ class Handler:
                 dim = (width, height)
                 display = cv2.resize(display, dim, interpolation = cv2.INTER_AREA) #resize original image
                 mask  = cv2.resize(mask, dim, interpolation = cv2.INTER_AREA) #resize mask
-                cv2.imshow("Camera", display) 
-                cv2.imshow("Mask", mask)
+
                 self.processed_frames += 1 #Frame has been processed
                 #print(self.centers)
                 if self.processed_frames >= 10000: #if 10k frames are processed end the program (for testing)
                     self.shutdown_event.set()
                     return
-                if self.processed_frames % 60 == 1:
-                    self.stickPos = motorhelper.getStickPos(display)
-                
+
 
         cam.queue_frame(frame) #get next frame from buffer
         

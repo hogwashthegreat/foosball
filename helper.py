@@ -112,7 +112,6 @@ def whichPlayer(centers, board, sticks, stickPos):
     yPos, stickNum = yHit(centers)
     if yPos == -1 or stickNum == -1:
         return 0, stickPos[0]
-    print(f"stickNum:{stickNum}\nstickPos: {stickPos}\ncenters: {centers}\nsticks: {sticks}")
     stick = sticks[stickNum]
     stickPos = stickPos[stickNum]
     if stickNum == 0: #3-man

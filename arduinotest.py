@@ -31,7 +31,7 @@ def reset(frame):
     lower = np.array([0,0,0])
     upper = np.array([255,255,10])
 
-rotate(100,1,0)
+rotate(500,0,0)
 
 def getStickPos(frame):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)

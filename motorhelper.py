@@ -28,6 +28,7 @@ def rotate(steps, direction, motor, board):
         stepPin.write(0)
 
 def moveTo(start, end, stick, board):
+    print(end)
     pixelToPulse = 100/43
     distance = abs(end-start) * pixelToPulse
     direction = 0

@@ -2,7 +2,7 @@ import sys
 from typing import Optional  
 import time
 from vmbpy import *
-from FakeHandler import FakeHandler
+from Handler import Handler
 
 # All frames will either be recorded in this format, or transformed to it before being displayed
 opencv_display_format = PixelFormat.Bgr8
@@ -64,7 +64,7 @@ def main():
             # setup general camera settings and the pixel format in which frames are recorded
             setup_camera(cam)
             #get handler class to start streaming
-            handler = FakeHandler()
+            handler = Handler()
             waitKey = handler.getWaitKey()
             if waitKey:
                 buffer = 5
