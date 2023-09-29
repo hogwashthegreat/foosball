@@ -58,7 +58,7 @@ def getStickPos(frame):
         for c in cnts:
         #c = max(cnts, key=cv2.contourArea)
             ((x, y), radius) = cv2.minEnclosingCircle(c)
-            if (radius > 30): #if big enough to be a player
+            if (radius > 35): #if big enough to be a player
                 if (x > playerX[0][0]) and (x < playerX[0][1]): #2 man, x range
                     if y < players[0]:
                         players[0] = y
@@ -84,6 +84,4 @@ def getStickPos(frame):
     #990 1111
     #for i in range(len(sticks)):
     #    moveTo(playerY[i], 0, sticks[i])
-    return players
-
-getStickPos(cv2.imread("masktests\\today5.jpg"))
+    return players, mask
