@@ -77,7 +77,7 @@ def getVelo(centers):
 def whichStick(centers):
     velo = getVelo(centers)
     nextX = centers[0][0]
-    if velo[0] > 0:
+    if velo[0] != 0:
         if nextX < stickX[0]:
             return 0, velo
         elif nextX < stickX[1]:
@@ -88,25 +88,31 @@ def whichStick(centers):
             return 3, velo
         else: #When ball is past goalie
             return 4, velo
-        
+    else:
+            return 4, velo
 #find yPos of predicted contact with stick
 def yHit(centers):
     stick, velo = whichStick(centers) #retrieve next stick to get hit and ball velocity
-    x = stickX[stick] #get the x location of the collision
-    frames = (x-centers[0][0])/velo[0] #how many frames until collision
-    yPos = frames*velo[1]+centers[0][1] #total y position
-    #bounce logic using flipped table
-    numTables = yPos//tableY
-    remainder = yPos % tableY
-    if numTables % 2:
-        yPos = tableY-remainder
+    if stick != 4 or velo[0] != 0:
+        x = stickX[stick] #get the x location of the collision
+        frames = (x-centers[0][0])/velo[0] #how many frames until collision
+        yPos = frames*velo[1]+centers[0][1] #total y position
+        #bounce logic using flipped table
+        numTables = yPos//tableY
+        remainder = yPos % tableY
+        if numTables % 2:
+            yPos = tableY-remainder
+        else:
+            yPos = remainder
+        return int(yPos), stick #return predicted yposition of collision and stick collided with
     else:
-        yPos = remainder
-    return int(yPos), stick #return predicted yposition of collision and stick collided with
-
+        return -1, -1
 #find player to hit with based on predicted yPos
 def whichPlayer(centers, board, sticks, stickPos):
     yPos, stickNum = yHit(centers)
+    if yPos == -1 or stickNum == -1:
+        return 0, stickPos[0]
+    print(f"stickNum:{stickNum}\nstickPos: {stickPos}\ncenters: {centers}\nsticks: {sticks}")
     stick = sticks[stickNum]
     stickPos = stickPos[stickNum]
     if stickNum == 0: #3-man
@@ -187,4 +193,5 @@ def whichPlayer(centers, board, sticks, stickPos):
         
     elif stickNum == 4: #if past our goalie stick
         pass
-    
+
+    return stickNum, stickPos

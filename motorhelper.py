@@ -10,20 +10,20 @@ def setup():
     except:
         board = pyfirmata.Arduino("COM5")
     sticks = []
-    sticks.append([[board.get_pin("d:8:o"), board.get_pin("d:8:0")], [board.get_pin("d:8:o"), board.get_pin("d:8:0")]])
-    sticks.append([[board.get_pin("d:8:o"), board.get_pin("d:8:0")], [board.get_pin("d:8:o"), board.get_pin("d:8:0")]])
-    lateralMotor = [board.get_pin("d:9:o"), board.get_pin("d:6:0")] #dir:9, step:6
+    sticks.append(0)
+    sticks.append(0)
+    lateralMotor = [board.get_pin("d:9:o"), board.get_pin("d:6:o")] #dir:9, step:6
     rotateMotor = [board.get_pin("d:10:o"), board.get_pin("d:5:o")] #dir"10, step:5
     stick = [lateralMotor, rotateMotor]
     sticks.append(stick)
-    sticks.append([[board.get_pin("d:8:o"), board.get_pin("d:8:0")], [board.get_pin("d:8:o"), board.get_pin("d:8:0")]])
+    sticks.append(0)
     return board, sticks
 
 def rotate(steps, direction, motor, board):
     dirPin = motor[0]
     stepPin = motor[1]
     dirPin.write(direction)
-    for a in range(steps):
+    for a in range(int(steps)):
         stepPin.write(1)
         stepPin.write(0)
 
@@ -75,9 +75,9 @@ def getStickPos(frame):
     print(players)
     for i in range(len(players)):
         cv2.circle(frame, (int((playerX[i][1]+playerX[i][0])/2), int(players[i])), int(20), (0, 255, 255), 2)
-    cv2.imshow("frame", frame)
-    cv2.imshow("mask", mask)
-    cv2.waitKey(0)
+    #cv2.imshow("frame", frame)
+    #cv2.imshow("mask", mask)
+    #cv2.waitKey(0)
     #get players y
     # 
     #

@@ -5,6 +5,7 @@ import helper
 import numpy as np
 from calibration import fullMask
 import motorhelper
+
 class Handler:
     def __init__(self):
         self.shutdown_event = threading.Event()
@@ -71,9 +72,10 @@ class Handler:
                     velo = helper.getVelo(self.centers)
                     #center = (self.centers[0][0] + velo[0],self.centers[0][1] + velo[1])
                 """
-                self.centers[2] = self.centers[1]
-                self.centers[1] = self.centers[0]
-                self.centers[0] = center
+                if center != None:
+                    self.centers[2] = self.centers[1]
+                    self.centers[1] = self.centers[0]
+                    self.centers[0] = center
                 num, yPos = helper.whichPlayer(self.centers, self.board, self.sticks, self.stickPos)
                 self.stickPos[num] = yPos
                 try:
@@ -98,7 +100,7 @@ class Handler:
                 if self.processed_frames >= 10000: #if 10k frames are processed end the program (for testing)
                     self.shutdown_event.set()
                     return
-                if self.processed_frames % 60 == 0:
+                if self.processed_frames % 60 == 1:
                     self.stickPos = motorhelper.getStickPos(display)
                 
 
