@@ -1,7 +1,3 @@
-import motorhelper
-import keyboard
-#board, sticks = motorhelper.setup()
-
 from inputs import get_gamepad
 import math
 import threading
@@ -39,17 +35,12 @@ class XboxController(object):
 
 
     def read(self): # return the buttons/triggers that you care about in this methode
-        leftx = self.LeftJoystickX
-        lefty = self.LeftJoystickY
-        rightx = self.RightJoystickX
-        righty = self.RightJoystickY
-        righttr = self.RightTrigger
-        lefttr = self.LeftTrigger
-
+        x = self.LeftJoystickX
+        y = self.LeftJoystickY
         a = self.A
         b = self.X # b=1, x=2
         rb = self.RightBumper
-        return [leftx, lefty, rightx, righty, righttr, lefttr]
+        return [x, y, a, b, rb]
 
 
     def _monitor_controller(self):
@@ -104,19 +95,3 @@ class XboxController(object):
 joy = XboxController()
 while True:
     print(joy.read())
-    data = joy.read()
-    if data[4] >= 0.9:
-        motorhelper.rotate
-        if keyboard.is_pressed("w"):  # if key 'q' is pressed 
-            motorhelper.rotate(1, 1, sticks[2][0], board)
-              # finishing the loop
-        elif keyboard.is_pressed("s"):
-            motorhelper.rotate(1, 0, sticks[2][0], board)
-        elif keyboard.is_pressed("a"):  # if key 'q' is pressed 
-            motorhelper.rotate(1, 1, sticks[2][1], board)
-              # finishing the loop
-        elif keyboard.is_pressed("d"):
-            motorhelper.rotate(1, 0, sticks[2][1], board)
-    except:
-        break  # if user pressed a key other than the given key the loop will break
-  
